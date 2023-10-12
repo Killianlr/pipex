@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 17:07:15 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/11 15:34:54 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/10/12 13:50:12 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	main(int ac, char **av)
 	if (!check_arg(ac, av))
 		return (printf("this is empty\n"));
 	ft_init(pip, ac, av);
+	ft_end(pip);
 	return (0);
 }

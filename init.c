@@ -6,11 +6,36 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:40:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/11 15:34:27 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/10/12 14:13:39 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+int	set_str_cmd(t_pi *pip)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (pip->arg[i])
+		i++;
+	pip->cmd = malloc(sizeof(char ***) * i + 1);
+	i = 0;
+	while (pip->arg[i])
+	{
+		pip->cmd[i] = ft_split(pip->arg[i], ' ');
+		j = 0;
+		while (pip->cmd[i][j]) // A SUPPRIMER 
+		{
+			printf("pip->cmd[%d][%d] = %s\n", i, j, pip->cmd[i][j]);
+			j++;
+		}
+		i++;
+	}
+	pip->cmd[i] = NULL;
+	return (0);
+}
 
 int	parse_arg(t_pi *pip, int ac, char **av)
 {
@@ -33,7 +58,7 @@ int	parse_arg(t_pi *pip, int ac, char **av)
 		ac--;
 	}
 	pip->arg[i] = NULL;
-	// set_str_cmd(pip);
+	set_str_cmd(pip);
 	return (1);
 }
 
@@ -45,6 +70,7 @@ int	ft_init(t_pi *pip, int ac, char **av)
 	pip->fd_out = open(av[ac - 1], O_WRONLY);
 	if (pip->fd_out == -1)
 		return (1);
+	pip->path = "/bin/";
 	parse_arg(pip, ac, av);
 	// printf("here");
 	return (0);
