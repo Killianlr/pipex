@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 17:07:15 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/13 11:50:28 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:16:59 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 int	main(int ac, char **av)
 {
 	t_pi	*pip;
+	int	i;
+	int	g;
 
-	// printf("ac = %d\n", ac);
+	i = 0;
+	g = 2;
 	if (ac < 5)
 		return (printf("error arg"));
 	if (!allow(ac, av))
@@ -31,6 +34,14 @@ int	main(int ac, char **av)
 		ft_end(pip);
 		return (1);
 	}
+	// while (g > 0)
+	// {
+	// 	printf("g = %d\n", g);
+	// 	printf("pip->cmd[%d] %s\n", i, pip->cmd[i][0]);
+	// 	ft_exec(pip, pip->cmd[i]);
+	// 	i++;
+
+	// }
 	ft_end(pip);
 	return (0);
 }

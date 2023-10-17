@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 17:13:35 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/12 14:12:03 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:26:49 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ int		ft_strlen_space(char *str);
 char	*remove_white_space(char *str1, char *str2);
 void	ft_end(t_pi *pip);
 int		ft_strlen_arg(t_pi *pip);
+int		ft_exec(t_pi *pip, char **cmd);
+
 
 #endif

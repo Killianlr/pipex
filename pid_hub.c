@@ -6,13 +6,13 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 14:16:56 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/13 14:19:12 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:10:46 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	pid_hub(t_pi *pip)
-{
+// int	pid_hub(t_pi *pip)
+// {
 	
-}
+// }

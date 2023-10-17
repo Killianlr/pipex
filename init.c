@@ -6,11 +6,44 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:40:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/13 14:16:43 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/10/17 16:16:54 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+// int	ft_exec(t_pi *pip, char **cmd)
+// {
+// 	int	fd[2];
+// 	int	pid;
+
+// 	if (pipe(fd) == -1)
+// 	{
+// 		perror("pipe");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	if (cmd[0 + 1])
+// 	{
+// 		pid = fork();
+// 		if (pid == -1)
+// 		{
+// 			perror("fork");
+// 			exit(EXIT_FAILURE);
+// 		}
+// 		if (pid == 0)
+// 		{
+			
+// 			execve(ft_strjoin(pip->path, cmd[0]), cmd, NULL);
+// 		}
+// 	}
+// 	else
+// 	{
+// 		dup2(pip->fd_out, STDOUT_FILENO);
+// 		execve(ft_strjoin(pip->path, cmd[0]), cmd, NULL);
+// 	}
+// 	printf("hello\n");
+// 	return (0);
+// }
 
 int	set_str_cmd(t_pi *pip)
 {
@@ -28,11 +61,11 @@ int	set_str_cmd(t_pi *pip)
 	{
 		pip->cmd[i] = ft_split(pip->arg[i], ' ');
 		j = 0;
-		while (pip->cmd[i][j]) // A SUPPRIMER 
-		{
-			printf("pip->cmd[%d][%d] = %s\n", i, j, pip->cmd[i][j]);
-			j++;
-		}						// A SUPPRIMER
+		// while (pip->cmd[i][j]) // A SUPPRIMER 
+		// {
+		// 	printf("pip->cmd[%d][%d] = %s\n", i, j, pip->cmd[i][j]);
+		// 	j++;
+		// }						// A SUPPRIMER
 		i++;
 	}
 	pip->cmd[i] = NULL;
@@ -42,10 +75,10 @@ int	set_str_cmd(t_pi *pip)
 int	parse_arg(t_pi *pip, int ac, char **av)
 {
 	int	i;
-	int countemp;
+	// int countemp;
 
 	i = 0;
-	countemp = 1;
+	// countemp = 1;
 	(void)av;
 	pip->arg = malloc(sizeof(char *) * (ac - 2));
 	if (!pip->arg)
@@ -56,9 +89,9 @@ int	parse_arg(t_pi *pip, int ac, char **av)
 		if (!pip->arg[i])
 			return (0);
 		pip->arg[i] = remove_white_space(pip->arg[i], av[2 + i]);
-		printf("cmd%d -> %s\n", countemp, pip->arg[i]);
+		// printf("cmd%d -> %s\n", countemp, pip->arg[i]);
 		i++;
-		countemp++;
+		// countemp++;
 		ac--;
 	}
 	pip->arg[i] = NULL;
@@ -76,7 +109,7 @@ int	ft_init(t_pi *pip, int ac, char **av)
 		return (0);
 	pip->path = "/bin/";
 	parse_arg(pip, ac, av);
-	pid_hub(pip);
+	// pid_hub(pip);
 	// printf("here");
 	return (1);
 }
