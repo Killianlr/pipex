@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 15:25:11 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/12 13:56:21 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:13:34 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,21 @@ int	ft_strlen_arg(t_pi *pip)
 	while (pip->arg[i])
 		i++;
 	return (i);
+}
+
+void	free_pip(t_pi *pip)
+{
+	int	i;
+
+	i = 0;
+	if (pip->pipe)
+	{
+		while (pip->pipe[i])
+		{
+			free(pip->pipe[i]);
+			i++;
+		}
+	}
 }
 
 void	free_cmd(t_pi *pip)
@@ -64,5 +79,6 @@ void	ft_end(t_pi *pip)
 		free(pip->arg);
 	}
 	free_cmd(pip);
+	free_pipe(pip);
 	free(pip);
 }

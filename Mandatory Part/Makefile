@@ -6,7 +6,7 @@
 #    By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/09 17:14:47 by kle-rest          #+#    #+#              #
-#    Updated: 2023/10/18 14:22:39 by kle-rest         ###   ########.fr        #
+#    Updated: 2023/10/18 14:47:00 by kle-rest         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ LIB = $(addprefix $(LIBFT_DIR)/, $(LIBFT))
 
 SOURCES = main.c \
 			error.c \
-			commande.c \
+			command.c \
+			free.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 

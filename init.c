@@ -6,44 +6,13 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 15:40:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/17 16:16:54 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/10/18 13:33:19 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-// int	ft_exec(t_pi *pip, char **cmd)
-// {
-// 	int	fd[2];
-// 	int	pid;
 
-// 	if (pipe(fd) == -1)
-// 	{
-// 		perror("pipe");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	if (cmd[0 + 1])
-// 	{
-// 		pid = fork();
-// 		if (pid == -1)
-// 		{
-// 			perror("fork");
-// 			exit(EXIT_FAILURE);
-// 		}
-// 		if (pid == 0)
-// 		{
-			
-// 			execve(ft_strjoin(pip->path, cmd[0]), cmd, NULL);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		dup2(pip->fd_out, STDOUT_FILENO);
-// 		execve(ft_strjoin(pip->path, cmd[0]), cmd, NULL);
-// 	}
-// 	printf("hello\n");
-// 	return (0);
-// }
 
 int	set_str_cmd(t_pi *pip)
 {
@@ -99,6 +68,16 @@ int	parse_arg(t_pi *pip, int ac, char **av)
 	return (1);
 }
 
+void	ft_exec(t_pi *pip)
+{
+	pip->pid = fork();
+	if (!pip->pid)
+	{
+		if (pip->idx == 0)
+			swap_dup2(pip->fd_in, pip->pipe[1]);
+	}
+}
+
 int	ft_init(t_pi *pip, int ac, char **av)
 {
 	pip->fd_in = open(av[1], O_RDONLY);
@@ -109,7 +88,7 @@ int	ft_init(t_pi *pip, int ac, char **av)
 		return (0);
 	pip->path = "/bin/";
 	parse_arg(pip, ac, av);
-	// pid_hub(pip);
+	ft_exec(pip);
 	// printf("here");
 	return (1);
 }

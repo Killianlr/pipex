@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipexM.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/09 17:13:35 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/18 13:48:43 by kle-rest         ###   ########.fr       */
+/*   Created: 2023/10/18 13:47:22 by kle-rest          #+#    #+#             */
+/*   Updated: 2023/10/18 15:21:17 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,32 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <sys/wait.h>
 
-typedef	struct s_pi
+# define ERR_INPUT "Invalid number of arguments.\n"
+# define ERR_INFILE "Infile"
+# define ERR_OUTFILE "Outfile"
+# define ERR_CMD "Commande not found\n"
+# define ERR_PIPE "pipe"
+
+typedef struct s_p
 {
-	int	fd_in;
-	int	fd_out;
-	char	**arg;
-	char	***cmd;
+	int	infile;
+	int	outfile;
+	int	tube[2];
+	int	pid1;
+	int	pid2;
 	char	*path;
-	int		idx;
-	int		*pipe;
-	int		cmd_nmbr;
-	int		pid;
-}t_pi;
+	char	**cmd_path;
+	char	**cmd_args;
+	char	*cmd;	
+}t_p;
 
-int		ft_init(t_pi *pip, int ac, char **av);
-int		allow(int ac, char **av);
-int		check_arg(int ac, char **av);
-int		ft_strlen_space(char *str);
-char	*remove_white_space(char *str1, char *str2);
-void	ft_end(t_pi *pip);
-int		ft_strlen_arg(t_pi *pip);
-int		ft_exec(t_pi *pip, char **cmd);
-
+void	first_cmd(t_p *pip, char **av, char **envp);
+void	second_cmd(t_p *pip, char **av, char **envp);
+void	parent_free(t_p *pip);
+void	child_free(t_p *pip);
+void	msg_error(char *err);
+int		msg(char *err);
 
 #endif
