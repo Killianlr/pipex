@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/12 15:05:03 by kle-rest          #+#    #+#             */
-/*   Updated: 2022/11/18 14:06:32 by kle-rest         ###   ########.fr       */
+/*   Created: 2022/12/11 16:00:43 by kle-rest          #+#    #+#             */
+/*   Updated: 2022/12/11 16:10:04 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	int	i;
+# include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/stat.h>
+# include <fcntl.h>
 
-	i = 0;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
+char	*get_next_line(int fd, int x);
+int		ft_strlen_gnl(char *str);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+void	*ft_calloc_gnl(int nmemb, int size);
+int		ft_checkline(char *s);
+
+#endif

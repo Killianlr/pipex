@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "libft/libft.h"
+# include "libft/get_next_line.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
@@ -29,6 +30,8 @@
 # define ERR_PIPE "pipe"
 # define ERR "error"
 # define ERR_MALLOC "malloc failed"
+# define ERR_HEREDOC "here_doc"
+# define ERR_GNL "get_next_line"
 
 typedef struct s_p
 {
@@ -52,5 +55,8 @@ void	msg_pipe(char *arg);
 void	ft_free(t_p *pip);
 void	ft_free_path(t_p *pip);
 void	ft_free_args(t_p *pip);
+void    here_doc(char *av, t_p *pip);
+int		ft_error(char *str);
+
 
 #endif

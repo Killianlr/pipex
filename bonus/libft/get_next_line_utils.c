@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/19 13:00:56 by kle-rest          #+#    #+#             */
-/*   Updated: 2022/12/11 17:27:50 by kle-rest         ###   ########.fr       */
+/*   Created: 2022/12/11 16:01:51 by kle-rest          #+#    #+#             */
+/*   Updated: 2022/12/11 17:35:36 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *str)
+int	ft_strlen_gnl(char *str)
 {
 	int	i;
 
@@ -40,7 +40,7 @@ int	ft_checkline(char *s)
 	return (0);
 }
 
-void	*ft_calloc(int nmemb, int size)
+void	*ft_calloc_gnl(int nmemb, int size)
 {
 	char	*str;
 	int		i;
@@ -53,10 +53,7 @@ void	*ft_calloc(int nmemb, int size)
 		return (0);
 	str = malloc(size * nmemb);
 	if (!str)
-	{
-		free(str);
 		return (NULL);
-	}
 	while (i < size * nmemb)
 	{
 		str[i] = 0;
@@ -65,7 +62,7 @@ void	*ft_calloc(int nmemb, int size)
 	return ((void *)str);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_gnl(char *s1, char *s2)
 {
 	int		i;
 	int		j;
@@ -74,10 +71,10 @@ char	*ft_strjoin(char *s1, char *s2)
 	i = -1;
 	j = 0;
 	if (!s1)
-		s1 = ft_calloc(sizeof(char), 1);
+		s1 = ft_calloc_gnl(sizeof(char), 1);
 	if (!s1 || !s2)
 		return (NULL);
-	len = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	len = malloc(sizeof(char) * (ft_strlen_gnl(s1) + ft_strlen_gnl(s2) + 1));
 	if (!len)
 		return (NULL);
 	while (s1[++i])

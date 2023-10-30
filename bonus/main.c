@@ -34,7 +34,7 @@ int	ft_check_arg(t_p *pip, int ac, char **av)
 int	ft_init(t_p *pip, int ac, char **av)
 {
 	if (pip->here_doc)
-		printf("Fonction pour here_doc\n");
+		here_doc(av[2], pip);
 	else
 	{
 		pip->infile = open(av[1], O_RDONLY);

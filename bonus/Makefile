@@ -21,6 +21,7 @@ LIB = $(addprefix $(LIBFT_DIR)/, $(LIBFT))
 SOURCES = main.c \
 			error_bonus.c \
 			free_bonus.c \
+			here_doc.c \
 
 OBJECTS = $(SOURCES:.c=.o)
 
