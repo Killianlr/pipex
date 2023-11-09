@@ -6,11 +6,11 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:12:14 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/18 15:18:53 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:14:56 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipexM.h"
+#include "../include/pipex.h"
 
 char	*get_cmd(char **paths, char	*cmd)
 {

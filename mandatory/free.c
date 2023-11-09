@@ -1,35 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 14:23:23 by kle-rest          #+#    #+#             */
-/*   Updated: 2022/11/22 14:45:09 by kle-rest         ###   ########.fr       */
+/*   Created: 2023/10/18 14:47:02 by kle-rest          #+#    #+#             */
+/*   Updated: 2023/11/09 15:15:24 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/pipex.h"
 
-void	*ft_calloc(size_t nmemb, size_t size)
+void	parent_free(t_p *pip)
 {
-	char	*str;
-	size_t	i;
+	int	i;
 
-	str = NULL;
 	i = 0;
-	if (!nmemb || !size)
-		return (malloc(0));
-	if (nmemb > 4294967295 / size)
-		return (0);
-	str = malloc(size * nmemb);
-	if (!str)
-		return (NULL);
-	while (i < size * nmemb)
+	close(pip->infile);
+	close(pip->outfile);
+	while (pip->cmd_path[i])
 	{
-		str[i] = 0;
+		free(pip->cmd_path[i]);
 		i++;
 	}
-	return ((void *)str);
+	free(pip->cmd_path);
+}
+
+void	child_free(t_p *pip)
+{
+	int	i;
+
+	i = 0;
+	while (pip->cmd_args[i])
+	{
+		free(pip->cmd_args[i]);
+		i++;
+	}
+	free(pip->cmd_args);
+	free(pip->cmd);
 }

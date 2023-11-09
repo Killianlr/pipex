@@ -6,11 +6,11 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:57:07 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/18 17:23:03 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:15:29 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipexM.h"
+#include "../include/pipex.h"
 
 char	*find_path(char	**envp)
 {

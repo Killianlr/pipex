@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/12 15:05:03 by kle-rest          #+#    #+#             */
-/*   Updated: 2022/11/18 14:06:32 by kle-rest         ###   ########.fr       */
+/*   Created: 2023/10/18 14:00:53 by kle-rest          #+#    #+#             */
+/*   Updated: 2023/11/09 15:15:19 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../include/pipex.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int		msg(char *err)
 {
-	int	i;
+	write(2, err, ft_strlen(err));
+	return (1);
+}
 
-	i = 0;
-	while (s[i])
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
+void	msg_error(char *err)
+{
+	perror(err);
+	exit (1);
 }
