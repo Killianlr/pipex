@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   utiles.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:00:53 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/11/09 15:15:19 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:40:55 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	find_max_int_tab(char **env)
 	int		r;
 
 	r = 0;
+	if (!env[r])
+		return (0);
 	while (env[r])
 		r++;
 	return (r);
@@ -36,7 +38,7 @@ char	*find_path(char **envp)
 
 	r = 0;
 	max = find_max_int_tab(envp);
-	while (ft_strncmp("PATH", envp[r], 4) && r < max)
+	while (envp[r] && ft_strncmp("PATH", envp[r], 4) && r < max)
 		r++;
 	if (r == max)
 		msg_error("error path\n");

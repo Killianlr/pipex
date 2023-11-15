@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 00:13:40 by kle-rest          #+#    #+#             */
-/*   Updated: 2022/11/22 14:45:28 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:50:43 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ char	**ft_split(char const *s, char c)
 {
 	char	**tab;
 
+	if (!s)
+	{
+		printf("ici\n");
+		return (NULL);
+	}
 	tab = malloc(sizeof(char *) * (ft_countword(s, c) + 1));
 	if (!tab)
 		return (NULL);
