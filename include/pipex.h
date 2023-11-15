@@ -42,5 +42,6 @@ void	free_fork2(t_p *pip);
 void	close_pipes(t_p *pip);
 int		msg_error(char *str);
 void	free_main(t_p *pip);
+void	child(t_p pip, char **av, char **envp);
 
 #endif

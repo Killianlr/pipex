@@ -32,6 +32,9 @@ OBJECTS = $(addprefix $(OBJECTS_DIR)/, $(MY_OBJECTS))
 
 MY_BONUS = main_bonus.c \
 			utiles_bonus.c \
+			command_bonus.c \
+			free_bonus.c \
+			here_doc.c \
 
 BONUS_DIR = bonus
 BONUS = $(addprefix $(BONUS_DIR)/, $(MY_BONUS))

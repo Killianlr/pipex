@@ -47,5 +47,8 @@ void    free_parent(t_p *pip);
 void	free_main(t_p *pip);
 int		msg_error(char *str);
 int		pi_strcmp(char *s1, char *s2, int n);
+void	get_here_doc(char *av, t_p *pip);
+char	*get_cmd(char **paths, char	**cmd, char **envp);
+void	child(t_p pip, char **av, char **envp);
 
 #endif
