@@ -18,44 +18,53 @@ LIBFT = libft.a
 LIBFT_DIR = libft
 LIB = $(addprefix $(LIBFT_DIR)/, $(LIBFT))
 
-SOURCES_MAN = main.c \
-				error.c \
-				command.c \
-				free.c \
+MY_SOURCES = main.c \
+			free.c \
+			utiles.c \
+			command.c
 
-SOURCES_MAN_DIR = mandatory
-SOURCES = $(addprefix $(SOURCES_MAN_DIR)/, $(SOURCES_MAN_DIR))
+SOURCES_DIR = mandatory
+SOURCES = $(addprefix $(SOURCES_DIR)/, $(MY_SOURCES))
 
-OBJECTS_MAN = $(SOURCES_MAN:.c=.o)
+MY_OBJECTS = $(MY_SOURCES:.c=.o)
+OBJECTS_DIR = object
+OBJECTS = $(addprefix $(OBJECTS_DIR)/, $(MY_OBJECTS))
 
-SOURCES_BONUS = main_bonus.c \
-				error_bonus.c \
-				here_doc.c \
-				free_bonus.c \
+MY_BONUS = main_bonus.c \
+			utiles_bonus.c \
 
 BONUS_DIR = bonus
-BONUS = $(addprefix $(BONUS_DIR)/, $(SOURCES_BONUS))
+BONUS = $(addprefix $(BONUS_DIR)/, $(MY_BONUS))
 
-OBJECTS_BONUS = $(SOURCES_BONUS:.c=.o)
+MY_OBJECTS_BONUS = $(MY_BONUS:.c=.o)
+OBJECTS_BONUS_DIR = object_bonus
+OBJECTS_BONUS = $(addprefix $(OBJECTS_BONUS_DIR)/, $(MY_OBJECTS_BONUS))
 
-$(NAME): $(OBJECTS_MAN)
-				make -C $(LIBFT_DIR)
-				$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS_MAN) $(LIB)
+
+$(NAME) : $(OBJECTS)
+	make -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS) $(LIB)
+
+$(OBJECTS_DIR)/%.o: $(SOURCES_DIR)/%.c
+	@mkdir -p $(OBJECTS_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 
 bonus: $(OBJECTS_BONUS)
-				make -C $(LIBFT_DIR)
-				$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS_BONUS) $(LIB)
+	make -C $(LIBFT_DIR)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJECTS_BONUS) $(LIB)
+
+$(OBJECTS_BONUS_DIR)/%.o: $(BONUS_DIR)/%.c
+	@mkdir -p $(OBJECTS_BONUS_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJECTS)
-	make clean -C libft
+	rm -rf $(OBJECTS_DIR) $(OBJECTS_BONUS_DIR)
+	make clean -C $(LIBFT_DIR)
 
 fclean: clean
 	rm -f $(NAME)
-	make fclean -C libft
+	rm -f $(LIBFT_DIR)/$(LIBFT)
 
-re: clean all
-
-.PHONY: all clean fclean re
+re : fclean all

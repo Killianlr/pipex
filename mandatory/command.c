@@ -12,15 +12,20 @@
 
 #include "../include/pipex.h"
 
-char	*get_cmd(char **paths, char	*cmd)
+char	*get_cmd(char **paths, char	**cmd, char **envp)
 {
 	char	*tmp;
 	char	*command;
 
+	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
+	{
+		if (access(cmd[0], 0) == 0)
+			execve(cmd[0], cmd, envp);
+	}
 	while (*paths)
 	{
 		tmp = ft_strjoin(*paths, "/");
-		command = ft_strjoin(tmp, cmd);
+		command = ft_strjoin(tmp, cmd[0]);
 		free(tmp);
 		if (access(command, 0) == 0)
 			return (command);
@@ -30,34 +35,42 @@ char	*get_cmd(char **paths, char	*cmd)
 	return (NULL);
 }
 
-void	first_cmd(t_p *pip, char **av, char **envp)
+void	first_cmd(t_p pip, char **av, char **envp)
 {
-	dup2(pip->tube[1], 1);
-	close(pip->tube[0]);
-	dup2(pip->infile, 0);
-	pip->cmd_args = ft_split(av[2], ' ');
-	pip->cmd = get_cmd(pip->cmd_path, pip->cmd_args[0]);
-	if(!pip->cmd)
+	dup2(pip.infile, 0);
+	close(pip.infile);
+	close(pip.fd[0]);
+	dup2(pip.fd[1], 1);
+	pip.cmd = NULL;
+	pip.args = ft_split(av[2], ' ');
+	pip.cmd = get_cmd(pip.path, pip.args, envp);
+	if(!pip.cmd)
 	{
-		child_free(pip);
-		msg(ERR_CMD);
+		write(2, "command not found: ", 20);
+		write(2, pip.args[0], ft_strlen(pip.args[0]));
+		write(2, "\n", 1);
+		free_fork1(&pip);
 		exit(1);
 	}
-	execve(pip->cmd, pip->cmd_args, envp);
+	execve(pip.cmd, pip.args, envp);
 }
 
-void	second_cmd(t_p *pip, char **av, char **envp)
+void	second_cmd(t_p pip, char **av, char **envp)
 {
-	dup2(pip->tube[0], 0);
-	close(pip->tube[1]);
-	dup2(pip->outfile, 1);
-	pip->cmd_args = ft_split(av[3], ' ');
-	pip->cmd = get_cmd(pip->cmd_path, pip->cmd_args[0]);
-	if(!pip->cmd)
+	dup2(pip.outfile, 1);
+	close(pip.outfile);
+	close(pip.fd[1]);
+	dup2(pip.fd[0], 0);
+	pip.cmd = NULL;
+	pip.args = ft_split(av[3], ' ');
+	pip.cmd = get_cmd(pip.path, pip.args, envp);
+	if(!pip.cmd)
 	{
-		child_free(pip);
-		msg(ERR_CMD);
+		write(2, "command not found: ", 20);
+		write(2, pip.args[0], ft_strlen(pip.args[0]));
+		write(2, "\n", 1);
+		free_fork2(&pip);
 		exit(1);
 	}
-	execve(pip->cmd, pip->cmd_args, envp);
+	execve(pip.cmd, pip.args, envp);
 }

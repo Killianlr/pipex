@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/11 15:25:29 by kle-rest          #+#    #+#             */
-/*   Updated: 2022/12/11 16:09:33 by kle-rest         ###   ########.fr       */
+/*   Created: 2022/12/11 16:00:43 by kle-rest          #+#    #+#             */
+/*   Updated: 2022/12/11 16:10:04 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@
 #  define BUFFER_SIZE 10
 # endif
 
-char	*get_next_line(int fd);
-int		ft_strlen(char *str);
-char	*ft_strjoin(char *s1, char *s2);
-void	*ft_calloc(int nmemb, int size);
+char	*get_next_line(int fd, int x);
+int		ft_strlen_gnl(char *str);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+void	*ft_calloc_gnl(int nmemb, int size);
 int		ft_checkline(char *s);
 
 #endif

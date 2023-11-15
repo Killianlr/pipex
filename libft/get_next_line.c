@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 12:37:40 by kle-rest          #+#    #+#             */
-/*   Updated: 2022/12/11 18:07:46 by kle-rest         ###   ########.fr       */
+/*   Created: 2022/12/11 15:53:40 by kle-rest          #+#    #+#             */
+/*   Updated: 2022/12/13 17:10:15 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*ft_next(char *stash)
 		free(stash);
 		return (NULL);
 	}
-	next = malloc(sizeof(char) * (ft_strlen(stash) - i + 1));
+	next = malloc(sizeof(char) * (ft_strlen_gnl(stash) - i + 1));
 	if (!next)
 		return (NULL);
 	j = 0;
@@ -47,7 +47,7 @@ char	*ft_line(char *stash)
 	i = 0;
 	if (stash[0] == '\0')
 		return (NULL);
-	line = ft_calloc(sizeof(char), (ft_strlen(stash) + 1));
+	line = ft_calloc_gnl(sizeof(char), (ft_strlen_gnl(stash) + 1));
 	while (stash[i] && stash[i] != '\n')
 	{
 		line[i] = stash[i];
@@ -69,7 +69,7 @@ char	*ft_read(int fd, char *stash)
 	int		ret;
 
 	ret = 1;
-	bufread = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	bufread = ft_calloc_gnl(BUFFER_SIZE + 1, sizeof(char));
 	while (ret != 0 && ft_checkline(stash) == 0)
 	{
 		ret = read(fd, bufread, BUFFER_SIZE);
@@ -78,24 +78,29 @@ char	*ft_read(int fd, char *stash)
 			free(bufread);
 			return (NULL);
 		}
-		bufread[ret] = '\0';
-		stash = ft_strjoin(stash, bufread);
+		bufread[ret] = 0;
+		stash = ft_strjoin_gnl(stash, bufread);
 	}
 	free(bufread);
 	return (stash);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int x)
 {
-	static char	*stash;
+	static char	*stash[1024];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
-	stash = ft_read(fd, stash);
-	if (!stash)
+	if (fd < 0 || fd > 1023 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = ft_line(stash);
-	stash = ft_next(stash);
+	if (x == 1)
+	{
+		free(stash[fd]);
+		return (NULL);
+	}
+	stash[fd] = ft_read(fd, stash[fd]);
+	if (!stash[fd])
+		return (NULL);
+	line = ft_line(stash[fd]);
+	stash[fd] = ft_next(stash[fd]);
 	return (line);
 }

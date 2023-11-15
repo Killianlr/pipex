@@ -13,7 +13,7 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
@@ -22,30 +22,25 @@
 # include <unistd.h>
 # include <sys/wait.h>
 
-# define ERR_INPUT "Invalid number of arguments.\n"
-# define ERR_INFILE "Infile"
-# define ERR_OUTFILE "Outfile"
-# define ERR_CMD "Commande not found\n"
-# define ERR_PIPE "pipe"
-
 typedef struct s_p
 {
 	int	infile;
 	int	outfile;
-	int	tube[2];
+	int	fd[2];
 	int	pid1;
 	int	pid2;
-	char	*path;
-	char	**cmd_path;
-	char	**cmd_args;
-	char	*cmd;	
+	char	**path;
+	char	**args;
+	char	*cmd;
 }t_p;
 
-void	first_cmd(t_p *pip, char **av, char **envp);
-void	second_cmd(t_p *pip, char **av, char **envp);
-void	parent_free(t_p *pip);
-void	child_free(t_p *pip);
-void	msg_error(char *err);
-int		msg(char *err);
+char	*find_path(char **envp);
+void	first_cmd(t_p pip, char **av, char **envp);
+void	second_cmd(t_p pip, char **av, char **envp);
+void	free_fork1(t_p *pip);
+void	free_fork2(t_p *pip);
+void	close_pipes(t_p *pip);
+int		msg_error(char *str);
+void	free_main(t_p *pip);
 
 #endif

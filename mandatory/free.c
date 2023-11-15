@@ -12,31 +12,69 @@
 
 #include "../include/pipex.h"
 
-void	parent_free(t_p *pip)
+void	free_main(t_p *pip)
+{
+	int	i;
+
+	i = 0;
+	while (pip->path && pip->path[i])
+	{
+		free(pip->path[i]);
+		i++;
+	}
+	if (pip->path)
+		free(pip->path);
+}
+
+void	free_fork2(t_p *pip)
 {
 	int	i;
 
 	i = 0;
 	close(pip->infile);
 	close(pip->outfile);
-	while (pip->cmd_path[i])
+	while (pip->args && pip->args[i])
 	{
-		free(pip->cmd_path[i]);
+		free(pip->args[i]);
 		i++;
 	}
-	free(pip->cmd_path);
+	i = 0;
+	while (pip->path && pip->path[i])
+	{
+		free(pip->path[i]);
+		i++;
+	}
+	if (pip->path)
+		free(pip->path);
+	if (pip->args)
+		free(pip->args);
 }
 
-void	child_free(t_p *pip)
+void	free_fork1(t_p *pip)
 {
 	int	i;
 
 	i = 0;
-	while (pip->cmd_args[i])
+	while (pip->args && pip->args[i])
 	{
-		free(pip->cmd_args[i]);
+		free(pip->args[i]);
 		i++;
 	}
-	free(pip->cmd_args);
-	free(pip->cmd);
+	i = 0;
+	while (pip->path && pip->path[i])
+	{
+		free(pip->path[i]);
+		i++;
+	}
+	if (pip->path)
+		free(pip->path);
+	if (pip->args)
+		free(pip->args);
+
+}
+
+int	msg_error(char *str)
+{
+	perror(str);
+	exit (1);
 }

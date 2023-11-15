@@ -12,68 +12,62 @@
 
 #include "../include/pipex_bonus.h"
 
-int	ft_check_arg(t_p *pip, int ac, char **av)
+char	*get_cmd(char **paths, char	**cmd, char **envp)
 {
-	if (ac == 1)
+	char	*tmp;
+	char	*command;
+
+	if (cmd[0][0] == '/' || (cmd[0][0] == '.' && cmd[0][1] == '/'))
 	{
-		free(pip);
-		return (0);
+		if (access(cmd[0], 0) == 0)
+			execve(cmd[0], cmd, envp);
 	}
-	if (!ft_strncmp(av[1], "here_doc", 9))
-		pip->here_doc = 1;
-	else
-		pip->here_doc = 0;
-	if (ac < 5 + pip->here_doc)
+	while (*paths)
 	{
-		free(pip);
-		return (0);
+		tmp = ft_strjoin(*paths, "/");
+		command = ft_strjoin(tmp, cmd[0]);
+		free(tmp);
+		if (access(command, 0) == 0)
+			return (command);
+		free(command);
+		paths++;
 	}
-	return (1);
+	return (NULL);
 }
 
-int	ft_init(t_p *pip, int ac, char **av)
+void	set_fd(int in, int out)
 {
-	if (pip->here_doc)
-		here_doc(av[2], pip);
-	else
+	dup2(in, 0);
+	dup2(out, 1);
+}
+
+void	child(t_p pip, char **av, char **envp)
+{
+	pip.pid = fork();
+	if (!pip.pid)
 	{
-		pip->infile = open(av[1], O_RDONLY);
-		if (pip->infile < 0)
+		if (pip.idx == 0)
+			set_fd(pip.infile, pip.pipe[1]);
+		else if (pip.idx == pip.cmd_nbr - 1)
+			set_fd(pip.pipe[2 * pip.idx - 2], pip.outfile);
+		else
+			set_fd(pip.pipe[2 * pip.idx - 2], pip.pipe[2 * pip.idx + 1]);
+		close_pipes(&pip);
+		pip.args = ft_split(av[2 + pip.idx + pip.here_doc], ' ');
+		pip.cmd = get_cmd(pip.path, pip.args, envp);
+		if(!pip.cmd)
 		{
-			free(pip);
-			return (0);
+			write(2, "command not found: ", 20);
+			write(2, pip.args[0], ft_strlen(pip.args[0]));
+			write(2, "\n", 1);
+			free_child(&pip);
+			exit(1);
 		}
-	}
-	pip->outfile = open(av[ac - 1], O_TRUNC | O_CREAT | O_RDWR, 0000664);
-	if (pip->outfile < 0)
-	{
-		free(pip);
-		return (0);
-	}
-	return (1);
+		execve(pip.cmd, pip.args, envp);
+	}	
 }
 
-char	*find_path(char **envp)
-{
-	while (ft_strncmp("PATH", *envp, 4))
-		envp++;
-	return (*envp + 5);
-}
-
-int	ft_fill_struct(t_p *pip, int ac)
-{
-	pip->cmd_nbr = ac - 3 - pip->here_doc;
-	pip->pipe_nbr = 2 * (pip->cmd_nbr - 1);
-	pip->pipe = malloc(sizeof(int) * pip->pipe_nbr);
-	if (!pip->pipe)
-	{
-		free(pip);
-		return (0);
-	}
-	return (1);
-}
-
-void	creat_pipes(t_p *pip)
+void	get_pipes(t_p *pip)
 {
 	int	i;
 
@@ -81,93 +75,97 @@ void	creat_pipes(t_p *pip)
 	while (i < pip->cmd_nbr - 1)
 	{
 		if (pipe(pip->pipe + 2 * i) < 0)
-			ft_free_path(pip);
+			free_parent(pip);
 		i++;
 	}
 }
 
-void	double_dup2(int	zero, int first)
+void	get_here_doc(char *av, t_p *pip)
 {
-	dup2(zero, 0);
-	dup2(first, 1);
+	int		doc;
+	char	*buf;
+
+	doc = open(".heredoc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0000644);
+	if (doc < 0)
+		msg_error("error here_doc\n");
+	while (1)
+	{
+		write(1, "heredoc> ", 10);
+		buf = get_next_line(0, 0);
+		if(!buf)
+			msg_error("error get_next_line\n");
+		if (!pi_strcmp(av, buf, ft_strlen(av)))
+			break ;
+		write(doc, buf, ft_strlen(buf));
+		write(doc, "\n", 1);
+		free(buf);
+	}
+	get_next_line(0, 1);
+	free(buf);
+	close(doc);
+	pip->infile = open(".heredoc_tmp", O_RDONLY);
+	if (pip->infile < 0)
+		crash_here_doc();
 }
 
-void	close_pipes(t_p *pip)
+void	files_in_out(int ac, char **av, t_p *pip)
 {
-	int	i;
-
-	i = 0;
-	while (i < pip->pipe_nbr)
+	if (pip->here_doc)
 	{
-		close(pip->pipe[i]);
-		i++;
+		get_here_doc(av[2], pip);
+		pip->outfile = open(av[ac - 1], O_TRUNC | O_RDWR
+				| O_CREAT | O_APPEND, 0000644);
+		if (pip->outfile < 0)
+			msg_error("error open outfile\n");
+	}
+	else
+	{
+		if (access(av[1], R_OK) == -1)
+			msg_error("error access file\n");
+		pip->infile = open(av[1], O_RDONLY);
+		if (pip->infile < 0)
+			msg_error("error open infile\n");
+		pip->outfile = open(av[ac - 1], O_TRUNC | O_CREAT | O_RDWR, 0000644);
+		if (pip->outfile < 0)
+			msg_error("error open outfile\n");
 	}
 }
 
-char	*get_cmd(char **path, char *cmd)
+int	av_count(char *av, t_p *pip)
 {
-	char	*tmp;
-	char	*command;
-
-	while (*path)
+	if (!ft_strncmp(av, "here_doc", 9))
 	{
-		tmp = ft_strjoin(*path, "/");
-		command = ft_strjoin(tmp, cmd);
-		free(tmp);
-		if (access(command, 0) == 0)
-			return (command);
-		free(command);
-		path++;
+		pip->here_doc = 1;
+		return (6);
 	}
-	printf("here\n");
-	return (NULL);
-}
-
-void	ft_exec(t_p *pip, char **av, char **envp)
-{
-	pip->pid = fork();
-	if (!pip->pid)
+	else
 	{
-		if (pip->idx == 0)
-			double_dup2(pip->infile, pip->pipe[1]);
-		else if (pip->idx == pip->cmd_nbr - 1)
-			double_dup2(pip->pipe[2 * pip->idx - 2], pip->outfile);
-		else
-			double_dup2(pip->pipe[2 * pip->idx - 2], pip->pipe[2 * pip->idx + 1]);
-		close_pipes(pip);
-		pip->cmd_args = ft_split(av[2 + pip->here_doc + pip->idx], ' ');
-		pip->cmd = get_cmd(pip->cmd_path, pip->cmd_args[0]);
-		if (!pip->cmd)
-		{
-			msg_pipe(pip->cmd_args[0]);
-			ft_free_args(pip);
-			exit(1);
-		}
-		execve(pip->cmd, pip->cmd_args, envp);
+		pip->here_doc = 0;
+		return (5);
 	}
 }
 
 int	main(int ac, char **av, char **envp)
 {
-	t_p	*pip;
+	t_p	pip;
 
-	pip = (t_p *)malloc(sizeof(t_p));
-	if (!ft_check_arg(pip, ac, av))
-		return (msg(ERR_INPUT));
-	if (!ft_init(pip, ac, av))
-		return (msg(ERR));
-	pip->path = find_path(envp);
-	pip->cmd_path = ft_split(pip->path, ':');
-	if (!pip->cmd_path)
-		ft_free(pip);
-	if (!ft_fill_struct(pip, ac))
-		return (msg(ERR_MALLOC));
-	creat_pipes(pip);
-	pip->idx = -1;
-	while (++(pip->idx) < pip->cmd_nbr)
-		ft_exec(pip, av, envp);
-	close_pipes(pip);
+	if (ac < av_count(av[1], &pip) || !envp[0])
+		return (msg_error("error input\n"));
+	files_in_out(ac, av, &pip);
+	pip.cmd_nbr = ac -3 -pip.here_doc;
+	pip.pipe_nbr = 2 * (pip.cmd_nbr - 1);
+	pip.pipe = malloc(sizeof(int) * pip.pipe_nbr);
+	if (!pip.pipe)
+		msg_error("error pipe\n");
+	pip.path = ft_split(find_path(envp), ':');
+	if (!pip.path)
+		free_pipe(&pip);
+	get_pipes(&pip);
+	pip.idx = -1;
+	while (++(pip.idx) < pip.cmd_nbr)
+		child(pip, av, envp);
+	close_pipes(&pip);
 	waitpid(-1, NULL, 0);
-	ft_free_path(pip);
+	free_main(&pip);
 	return (0);
 }

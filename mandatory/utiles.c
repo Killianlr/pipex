@@ -1,33 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_bonus.c                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:00:53 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/11/09 15:15:47 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:15:19 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex_bonus.h"
+#include "../include/pipex.h"
 
-int		msg(char *err)
+static int	find_max_int_tab(char **env)
 {
-	write(2, err, ft_strlen(err));
-	return (1);
+	int		r;
+
+	r = 0;
+	while (env[r])
+		r++;
+	return (r);
 }
 
-void	msg_error(char *err)
+static char	*find_path_2(char **envp)
 {
-	perror(err);
-	exit (1);
+	while (ft_strncmp("PATH", *envp, 4))
+		envp++;
+	return (*envp + 5);
 }
 
-void	msg_pipe(char *arg)
+char	*find_path(char **envp)
 {
-	write(2, ERR_CMD, ft_strlen(ERR_CMD));
-	write(2, arg, ft_strlen(arg));
-	write(2, "\n", 1);
-	
+	int	r;
+	int	max;
+
+	r = 0;
+	max = find_max_int_tab(envp);
+	while (ft_strncmp("PATH", envp[r], 4) && r < max)
+		r++;
+	if (r == max)
+		msg_error("error path\n");
+	else
+		return (find_path_2(envp));
+	return (NULL);
+}
+
+void	close_pipes(t_p *pip)
+{
+	close(pip->fd[0]);
+	close(pip->fd[1]);
 }

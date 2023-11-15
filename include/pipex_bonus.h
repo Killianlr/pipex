@@ -13,8 +13,8 @@
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
-# include "libft/libft.h"
-# include "libft/get_next_line.h"
+# include "../libft/libft.h"
+# include "../libft/get_next_line.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
@@ -22,16 +22,6 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <sys/wait.h>
-
-# define ERR_INPUT "Invalid number of arguments.\n"
-# define ERR_INFILE "Infile"
-# define ERR_OUTFILE "Outfile"
-# define ERR_CMD "Commande not found\n"
-# define ERR_PIPE "pipe"
-# define ERR "error"
-# define ERR_MALLOC "malloc failed"
-# define ERR_HEREDOC "here_doc"
-# define ERR_GNL "get_next_line"
 
 typedef struct s_p
 {
@@ -43,20 +33,19 @@ typedef struct s_p
 	int		idx;
 	int		pid;
 	int		*pipe;
-	char	*path;
-	char	**cmd_path;
-	char	**cmd_args;
+	char	**path;
+	char	**args;
 	char	*cmd;	
 }t_p;
 
-void	msg_error(char *err);
-int		msg(char *err);
-void	msg_pipe(char *arg);
-void	ft_free(t_p *pip);
-void	ft_free_path(t_p *pip);
-void	ft_free_args(t_p *pip);
-void    here_doc(char *av, t_p *pip);
-int		ft_error(char *str);
-
+void	crash_here_doc(void);
+char	*find_path(char **envp);
+void    free_pipe(t_p *pip);
+void    close_pipes(t_p *pip);
+void	free_child(t_p *pip);
+void    free_parent(t_p *pip);
+void	free_main(t_p *pip);
+int		msg_error(char *str);
+int		pi_strcmp(char *s1, char *s2, int n);
 
 #endif
