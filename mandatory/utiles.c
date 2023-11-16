@@ -31,7 +31,7 @@ static char	*find_path_2(char **envp)
 	return (*envp + 5);
 }
 
-char	*find_path(char **envp)
+char	*find_path(char **envp, t_p *pip)
 {
 	int	r;
 	int	max;
@@ -41,7 +41,7 @@ char	*find_path(char **envp)
 	while (envp[r] && ft_strncmp("PATH", envp[r], 4) && r < max)
 		r++;
 	if (r == max)
-		msg_error("error path\n");
+		msg_error("error path\n", pip);
 	else
 		return (find_path_2(envp));
 	return (NULL);

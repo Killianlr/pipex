@@ -34,13 +34,13 @@ typedef struct s_p
 	char	*cmd;
 }t_p;
 
-char	*find_path(char **envp);
+char	*find_path(char **envp, t_p *pip);
 void	first_cmd(t_p pip, char **av, char **envp);
 void	second_cmd(t_p pip, char **av, char **envp);
 void	free_fork1(t_p *pip);
 void	free_fork2(t_p *pip);
 void	close_pipes(t_p *pip);
-int		msg_error(char *str);
+int		msg_error(char *str, t_p *pip);
 void	free_main(t_p *pip);
 void	child(t_p pip, char **av, char **envp);
 

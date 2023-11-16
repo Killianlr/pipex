@@ -1,8 +1,27 @@
 #include "../include/pipex_bonus.h"
 
-int	msg_error(char *str)
+int	msg_error(char *str, t_p *pip)
 {
-	perror(str);
+	int	i;
+
+	write(2, str, ft_strlen(str));
+	i = 0;
+	while (pip->args && pip->args[i])
+	{
+		free(pip->args[i]);
+		i++;
+	}
+	while (pip->path && pip->path[i])
+	{
+		free(pip->path[i]);
+		i++;
+	}
+	if (pip->path)
+		free(pip->path);
+	if (pip->args)
+		free(pip->args);
+	if (pip->cmd)
+		free(pip->cmd);
 	exit (1);
 }
 
@@ -39,7 +58,7 @@ static char	*find_path_2(char **envp)
 	return (*envp + 5);
 }
 
-char	*find_path(char **envp)
+char	*find_path(char **envp, t_p *pip)
 {
 	int	r;
 	int	max;
@@ -49,7 +68,7 @@ char	*find_path(char **envp)
 	while (ft_strncmp("PATH", envp[r], 4) && r < max)
 		r++;
 	if (r == max)
-		msg_error("error path\n");
+		msg_error("error path\n", pip);
 	else
 		return (find_path_2(envp));
 	return (NULL);

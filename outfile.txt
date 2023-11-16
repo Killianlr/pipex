@@ -1,3 +1,1 @@
- 18:03:00 up 9 days,  3:26,  1 user,  load average: 0.88, 0.81, 0.71
-USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
-kle-rest tty7     :0               17:38    9days 18.45s  0.05s /usr/libexec/gnome-session-binary
+13

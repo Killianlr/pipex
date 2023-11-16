@@ -7,7 +7,7 @@ void    free_pipe(t_p *pip)
     if (pip->here_doc)
         unlink(".heredoc_tmp");
     free(pip->pipe);
-    msg_error("error envp\n");
+    write(2, "error envp\n", 12);
     exit(1);
 }
 
