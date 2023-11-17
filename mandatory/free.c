@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:47:02 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/11/09 15:15:24 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:55:26 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	free_fork1(t_p *pip)
 		free(pip->args);
 	if (pip->cmd)
 		free(pip->cmd);
-
 }
 
 int	msg_error(char *str, t_p *pip)

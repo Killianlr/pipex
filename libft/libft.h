@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 16:17:32 by kle-rest          #+#    #+#             */
-/*   Updated: 2022/12/16 13:38:32 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:48:29 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	*ft_reverse(char *nb, int c);
-char    *ft_is_empty(char *str);
+char	*ft_is_empty(char *str);
 
 typedef struct s_list
 {

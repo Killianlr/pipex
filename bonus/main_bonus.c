@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:55:48 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/11/09 15:16:30 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:56:23 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	check_args(int ac, char **av, t_p *pip)
 	int	i;
 
 	i = 2 + pip->here_doc;
-
 	while (i < ac)
 	{
 		av[i] = ft_is_empty(av[i]);
@@ -87,7 +86,7 @@ int	main(int ac, char **av, char **envp)
 		return (write(2, "error input\n", 13));
 	check_args(ac, av, &pip);
 	files_in_out(ac, av, &pip);
-	pip.cmd_nbr = ac -3 -pip.here_doc;
+	pip.cmd_nbr = ac - 3 - pip.here_doc;
 	pip.pipe_nbr = 2 * (pip.cmd_nbr - 1);
 	pip.pipe = malloc(sizeof(int) * pip.pipe_nbr);
 	if (!pip.pipe)

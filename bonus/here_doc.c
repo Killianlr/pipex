@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/17 11:56:27 by kle-rest          #+#    #+#             */
+/*   Updated: 2023/11/17 12:01:33 by kle-rest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/pipex_bonus.h"
 
 void	crash_here_doc(t_p *pip)
@@ -18,7 +30,7 @@ void	get_here_doc(char *av, t_p *pip)
 	{
 		write(1, "heredoc> ", 10);
 		buf = get_next_line(0, 0);
-		if(!buf)
+		if (!buf)
 			msg_error("error get_next_line\n", pip);
 		if (!pi_strcmp(av, buf, ft_strlen(av)))
 			break ;

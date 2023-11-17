@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   command_bonus.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/17 11:56:31 by kle-rest          #+#    #+#             */
+/*   Updated: 2023/11/17 12:01:01 by kle-rest         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/pipex_bonus.h"
 
 void	set_fd(int in, int out)
@@ -43,7 +55,7 @@ void	child(t_p pip, char **av, char **envp)
 		close_pipes(&pip);
 		pip.args = ft_split(av[2 + pip.idx + pip.here_doc], ' ');
 		pip.cmd = get_cmd(pip.path, pip.args, envp);
-		if(!pip.cmd)
+		if (!pip.cmd)
 		{
 			write(2, "command not found: ", 20);
 			write(2, pip.args[0], ft_strlen(pip.args[0]));

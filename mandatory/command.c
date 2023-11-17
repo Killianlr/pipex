@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 14:12:14 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/11/15 18:01:33 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:55:10 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	first_cmd(t_p pip, char **av, char **envp)
 	pip.cmd = NULL;
 	pip.args = ft_split(av[2], ' ');
 	pip.cmd = get_cmd(pip.path, pip.args, envp);
-	if(!pip.cmd)
+	if (!pip.cmd)
 	{
 		write(2, "command not found: ", 20);
 		write(2, pip.args[0], ft_strlen(pip.args[0]));
@@ -64,7 +64,7 @@ void	second_cmd(t_p pip, char **av, char **envp)
 	pip.cmd = NULL;
 	pip.args = ft_split(av[3], ' ');
 	pip.cmd = get_cmd(pip.path, pip.args, envp);
-	if(!pip.cmd)
+	if (!pip.cmd)
 	{
 		write(2, "command not found: ", 20);
 		write(2, pip.args[0], ft_strlen(pip.args[0]));

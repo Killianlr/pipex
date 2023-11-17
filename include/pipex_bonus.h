@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:47:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/10/19 15:57:41 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:53:14 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 
 typedef struct s_p
 {
-	int	infile;
-	int	outfile;
+	int		infile;
+	int		outfile;
 	int		here_doc;
 	int		cmd_nbr;
 	int		pipe_nbr;
@@ -39,10 +39,10 @@ typedef struct s_p
 }t_p;
 
 char	*find_path(char **envp, t_p *pip);
-void    free_pipe(t_p *pip);
-void    close_pipes(t_p *pip);
+void	free_pipe(t_p *pip);
+void	close_pipes(t_p *pip);
 void	free_child(t_p *pip);
-void    free_parent(t_p *pip);
+void	free_parent(t_p *pip);
 void	free_main(t_p *pip);
 int		msg_error(char *str, t_p *pip);
 int		pi_strcmp(char *s1, char *s2, int n);

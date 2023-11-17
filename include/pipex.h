@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:47:22 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/11/09 14:22:50 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:52:30 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 
 typedef struct s_p
 {
-	int	infile;
-	int	outfile;
-	int	fd[2];
-	int	pid1;
-	int	pid2;
+	int		infile;
+	int		outfile;
+	int		fd[2];
+	int		pid1;
+	int		pid2;
 	char	**path;
 	char	**args;
 	char	*cmd;

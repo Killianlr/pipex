@@ -6,19 +6,19 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 13:57:07 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/11/09 15:15:29 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:54:28 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
 static int	set_fd(int ac, char **av, t_p *pip)
-{ 
+{
 	pip->args = NULL;
 	pip->cmd = NULL;
 	pip->path = NULL;
 	if (access(av[1], R_OK) == -1)
-        return (msg_error("Error access file\n", pip));
+		return (msg_error("Error access file\n", pip));
 	pip->infile = open(av[1], O_RDONLY);
 	if (pip->infile < 0)
 		msg_error("error open infile\n", pip);
@@ -33,7 +33,7 @@ int	main(int ac, char **av, char **envp)
 	t_p	pip;
 
 	if (ac != 5 || !envp[0])
-		return (msg_error("error, wrong number of arg or environnement\n", &pip));
+		return (msg_error("error, args or environnement\n", &pip));
 	set_fd(ac, av, &pip);
 	av[2] = ft_is_empty(av[2]);
 	av[3] = ft_is_empty(av[3]);
