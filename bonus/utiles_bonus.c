@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:56:39 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/11/17 11:56:40 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:16:58 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ int	msg_error(char *str, t_p *pip)
 		free(pip->args);
 	if (pip->cmd)
 		free(pip->cmd);
+	close(pip->infile);
+	close(pip->outfile);
+	if (pip->here_doc)
+		unlink(".heredoc_tmp");
 	exit (1);
 }
 

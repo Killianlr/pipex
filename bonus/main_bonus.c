@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 13:55:48 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/11/17 11:56:23 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/12/15 14:58:47 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	files_in_out(int ac, char **av, t_p *pip)
 	if (pip->here_doc)
 	{
 		get_here_doc(av[2], pip);
-		pip->outfile = open(av[ac - 1], O_TRUNC | O_RDWR
+		pip->outfile = open(av[ac - 1], O_RDWR
 				| O_CREAT | O_APPEND, 0000644);
 		if (pip->outfile < 0)
 			msg_error("error open outfile\n", pip);
@@ -99,7 +99,7 @@ int	main(int ac, char **av, char **envp)
 	while (++(pip.idx) < pip.cmd_nbr)
 		child(pip, av, envp);
 	close_pipes(&pip);
-	waitpid(-1, NULL, 0);
 	free_main(&pip);
+	waitpid(-1, NULL, 0);
 	return (0);
 }

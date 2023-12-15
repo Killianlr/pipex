@@ -6,7 +6,7 @@
 /*   By: kle-rest <kle-rest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:56:34 by kle-rest          #+#    #+#             */
-/*   Updated: 2023/11/17 12:00:35 by kle-rest         ###   ########.fr       */
+/*   Updated: 2023/12/15 15:01:10 by kle-rest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	free_child(t_p *pip)
 	int	i;
 
 	i = 0;
+	close(pip->infile);
+	close(pip->outfile);
 	while (pip->args && pip->args[i])
 	{
 		free(pip->args[i]);
